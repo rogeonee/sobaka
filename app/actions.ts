@@ -13,6 +13,11 @@ export const signInWithGoogleAction = async () => {
     provider: 'google',
     options: {
       redirectTo: `${origin}/auth/callback`,
+      scopes: 'https://www.googleapis.com/auth/calendar.events', // Google Calendar scope
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
     },
   });
 

@@ -1,24 +1,45 @@
-import { createClient } from "@/utils/supabase/server";
-import { NextResponse } from "next/server";
+import { createClient } from '@/utils/supabase/server';
+import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
-  // The `/auth/callback` route is required for the server-side auth flow implemented
-  // by the SSR package. It exchanges an auth code for the user's session.
-  // https://supabase.com/docs/guides/auth/server-side/nextjs
   const requestUrl = new URL(request.url);
-  const code = requestUrl.searchParams.get("code");
+  const code = requestUrl.searchParams.get('code');
   const origin = requestUrl.origin;
-  const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString();
 
   if (code) {
     const supabase = await createClient();
-    await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (error) {
+      console.error('OAuth Exchange Error:', error.message);
+      return NextResponse.redirect(`${origin}/sign-in?error=${error.message}`);
+    }
+
+    // Extract Google OAuth Tokens
+    const { session } = data;
+    const providerToken = session?.provider_token; // Google Access Token
+    const refreshToken = session?.provider_refresh_token; // Google Refresh Token
+
+    if (providerToken) {
+      // Save tokens in Supabase (for now, just logging)
+      console.log('Google Access Token:', providerToken);
+      console.log('Google Refresh Token:', refreshToken);
+    }
+
+    if (providerToken && refreshToken) {
+      const { error: dbError } = await supabase.from('user_tokens').upsert([
+        {
+          id: session.user.id,
+          access_token: providerToken,
+          refresh_token: refreshToken,
+        },
+      ]);
+
+      if (dbError) {
+        console.error('Database Token Save Error:', dbError.message);
+      }
+    }
   }
 
-  if (redirectTo) {
-    return NextResponse.redirect(`${origin}${redirectTo}`);
-  }
-
-  // URL to redirect to after sign up process completes
   return NextResponse.redirect(`${origin}/protected`);
 }
