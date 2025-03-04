@@ -1,5 +1,5 @@
 import { signInWithGoogleAction, signInWithOtpAction } from '@/app/actions';
-import { FormMessage, Message } from '@/components/form-message';
+import { FormMessage, type Message } from '@/components/form-message';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SubmitButton } from '@/components/submit-button';
