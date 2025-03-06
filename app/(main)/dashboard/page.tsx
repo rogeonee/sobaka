@@ -1,5 +1,5 @@
-import { Header } from '@/components/layout/header';
 import { Bell } from 'lucide-react';
+import { Header } from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/utils/supabase/server';
 

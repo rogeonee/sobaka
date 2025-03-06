@@ -1,6 +1,6 @@
+import { Edit } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
-import { Edit } from 'lucide-react';
 import { createClient } from '@/utils/supabase/server';
 
 export default async function ProfilePage() {

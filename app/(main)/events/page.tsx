@@ -1,6 +1,6 @@
+import { Plus } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 
 export default function EventsPage() {
   return (

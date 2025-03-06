@@ -1,9 +1,9 @@
+import { ChevronRight } from 'lucide-react';
+import { signOutAction } from '@/app/actions';
 import { Header } from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { ChevronRight } from 'lucide-react';
-import { signOutAction } from '@/app/actions';
 
 export default function SettingsPage() {
   return (

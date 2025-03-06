@@ -1,5 +1,5 @@
-import { signInWithGoogleAction } from '@/app/actions';
 import Link from 'next/link';
+import { signInWithGoogleAction } from '@/app/actions';
 
 export default function Signup() {
   return (
